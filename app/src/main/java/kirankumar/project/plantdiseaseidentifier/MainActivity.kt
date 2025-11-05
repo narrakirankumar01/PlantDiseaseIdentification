@@ -1,109 +1,148 @@
 package kirankumar.project.plantdiseaseidentifier
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import kirankumar.project.plantdiseaseidentifier.ui.theme.PlantDiseaseIdentifierTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-
+import kotlinx.coroutines.launch
+import kotlin.jvm.java
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PlantDiseaseIdentifierTheme {
-                LoadingScreenCheck(::isUserLoggedIn)
-            }
-        }
-    }
-
-    private fun isUserLoggedIn(value: Int) {
-
-        when (value) {
-            2 -> {
-                gotoSignInActivity(this)
-            }
-
+            FacultyStatusCheck()
         }
     }
 }
 
-@Composable
-fun LoadingScreenCheck(isUserLoggedIn: (value: Int) -> Unit) {
-    var splashValue by remember { mutableStateOf(true) }
 
-    LaunchedEffect(Unit) {
-        delay(3000)
-//        splashValue = false
+@Composable
+fun FacultyStatusCheck() {
+    val context = LocalContext.current as Activity
+    var showSplash by remember { mutableStateOf(true) }
+
+    DisposableEffect(Unit) {
+        val job = CoroutineScope(Dispatchers.Main).launch {
+            delay(3000)
+            showSplash = false
+        }
+        onDispose { job.cancel() }
     }
 
-    if (splashValue) {
-        LoadingScreen()
+    if (showSplash) {
+        SplashScreen()
+
     } else {
-        isUserLoggedIn.invoke(2)
+        context.startActivity(Intent(context, SignInActivity::class.java))
+        context.finish()
     }
+
 }
 
-
 @Composable
-fun LoadingScreen() {
-    Box(
+fun SplashScreen() {
+
+
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = R.color.purple_500)),
-        contentAlignment = Alignment.Center
+            .background(color = colorResource(id = R.color.white)),
     ) {
+
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Spacer(modifier = Modifier.weight(1f))
-
-
-            Image(
-                painter = painterResource(id = R.drawable.ic_plant_disease_detection),
-                contentDescription = "Plant Disease Identifier",
-            )
+            Spacer(modifier = Modifier.height(100.dp))
 
             Text(
                 text = "Plant Disease Identifier",
-                color = colorResource(id = R.color.black),
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(bottom = 6.dp)
-                    .align(Alignment.CenterHorizontally)
+                color = colorResource(id = R.color.p1),
+                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(bottom = 4.dp)
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Column(
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .background(
+                        color = colorResource(id = R.color.white),
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                    .border(
+                        width = 1.dp,
+                        color = colorResource(id = R.color.white),
+                        shape = RoundedCornerShape(6.dp)
+                    )
+                    .padding(16.dp),
+
+                )
+            {
+                Image(
+                    modifier = Modifier.size(200.dp, 200.dp),
+                    painter = painterResource(id = R.drawable.ic_plant_disease_detection),
+                    contentDescription = "Plant Disease Identifier",
+                )
+
+
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+
+
+            Text(
+                text = "By",
+                color = colorResource(id = R.color.p3),
+                style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
+
+            Text(
+                text = "Rohit",
+                color = colorResource(id = R.color.p3),
+                style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(bottom = 4.dp)
+            )
 
 
         }
@@ -114,11 +153,6 @@ fun LoadingScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun LoadingScreenPreview() {
-    LoadingScreen()
-}
-
-fun gotoSignInActivity(context: Activity) {
-//    context.startActivity(Intent(context, SignInActivity::class.java))
-//    context.finish()
+fun SplashScreenPreview() {
+    SplashScreen()
 }
