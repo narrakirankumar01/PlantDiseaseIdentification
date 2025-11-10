@@ -1,4 +1,4 @@
-package kirankumar.project.plantdiseaseidentifier
+package plantdiseaseidentifier.kirankumar.teesproject
 
 import org.junit.Test
 

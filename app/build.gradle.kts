@@ -1,14 +1,16 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
+
 }
 
 android {
-    namespace = "kirankumar.project.plantdiseaseidentifier"
+    namespace = "plantdiseaseidentifier.kirankumar.teesproject"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "kirankumar.project.plantdiseaseidentifier"
+        applicationId = "plantdiseaseidentifier.kirankumar.teesproject"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -69,4 +71,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.firebase.database.ktx)
+
 }

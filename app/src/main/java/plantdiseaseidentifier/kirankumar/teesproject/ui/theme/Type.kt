@@ -1,4 +1,4 @@
-package kirankumar.project.plantdiseaseidentifier.ui.theme
+package plantdiseaseidentifier.kirankumar.teesproject.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

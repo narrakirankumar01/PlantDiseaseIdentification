@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "407888175635",
+    "project_id": "plantdiseaseidentifier-e6170",
+    "storage_bucket": "plantdiseaseidentifier-e6170.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407888175635:android:9e9632ec561ac32dffd5e6",
+        "android_client_info": {
+          "package_name": "plantdiseaseidentifier.kirankumar.teesproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd32F0hAGWWg4EeEFCbTP7K5gv2BYaNXQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

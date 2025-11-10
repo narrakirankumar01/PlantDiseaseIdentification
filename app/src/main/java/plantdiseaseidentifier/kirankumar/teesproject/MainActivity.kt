@@ -1,4 +1,4 @@
-package kirankumar.project.plantdiseaseidentifier
+package plantdiseaseidentifier.kirankumar.teesproject
 
 import android.app.Activity
 import android.content.Intent
@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -45,14 +44,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            FacultyStatusCheck()
+            UserStatusCheck()
         }
     }
 }
 
 
 @Composable
-fun FacultyStatusCheck() {
+fun UserStatusCheck() {
     val context = LocalContext.current as Activity
     var showSplash by remember { mutableStateOf(true) }
 
@@ -138,7 +137,7 @@ fun SplashScreen() {
             )
 
             Text(
-                text = "Rohit",
+                text = "Kiran Kumar",
                 color = colorResource(id = R.color.p3),
                 style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier.padding(bottom = 4.dp)

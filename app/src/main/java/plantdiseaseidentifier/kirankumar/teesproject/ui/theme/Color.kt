@@ -1,4 +1,4 @@
-package kirankumar.project.plantdiseaseidentifier.ui.theme
+package plantdiseaseidentifier.kirankumar.teesproject.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
