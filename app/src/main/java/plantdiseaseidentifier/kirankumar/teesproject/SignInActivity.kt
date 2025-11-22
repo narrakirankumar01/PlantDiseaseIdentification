@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.firebase.database.FirebaseDatabase
 import kotlin.jvm.java
@@ -48,12 +49,19 @@ class SignInActivity : ComponentActivity() {
 
 }
 
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen()
+}
+
+
 @Composable
 fun LoginScreen() {
     var accEmail by remember { mutableStateOf("") }
     var accPassword by remember { mutableStateOf("") }
 
-    val context = LocalContext.current as Activity
+    val context = LocalContext.current.findActivity()
 
     Column(
         modifier = Modifier
@@ -202,7 +210,7 @@ fun LoginScreen() {
                     color = colorResource(id = R.color.p3),
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Black),
                     modifier = Modifier.clickable {
-                        context.startActivity(Intent(context, SignUpActivity::class.java))
+                        context!!.startActivity(Intent(context, SignUpActivity::class.java))
                         context.finish()
                     }
                 )

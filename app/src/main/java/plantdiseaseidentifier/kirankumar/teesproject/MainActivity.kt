@@ -1,6 +1,8 @@
 package plantdiseaseidentifier.kirankumar.teesproject
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -148,6 +150,13 @@ fun SplashScreen() {
     }
 
 }
+
+fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
+
 
 
 @Preview(showBackground = true)

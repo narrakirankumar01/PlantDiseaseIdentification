@@ -1,8 +1,5 @@
 package plantdiseaseidentifier.kirankumar.teesproject
 
-import android.R.attr.name
-import android.R.attr.password
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -34,9 +31,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.firebase.database.FirebaseDatabase
-import kotlin.jvm.java
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,6 +45,13 @@ class SignUpActivity : ComponentActivity() {
 }
 
 
+@Preview(showBackground = true)
+@Composable
+fun SignUpScreenPreview() {
+    SignUpScreen()
+}
+
+
 @Composable
 fun SignUpScreen() {
     var accName by remember { mutableStateOf("") }
@@ -56,7 +60,7 @@ fun SignUpScreen() {
     var accEmail by remember { mutableStateOf("") }
     var accPassword by remember { mutableStateOf("") }
 
-    val context = LocalContext.current as Activity
+    val context = LocalContext.current.findActivity()
 
     Column(
         modifier = Modifier
@@ -201,7 +205,7 @@ fun SignUpScreen() {
                                         if (task.isSuccessful) {
                                             Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT).show()
 
-                                            context.startActivity(
+                                            context!!.startActivity(
                                                 Intent(
                                                     context,
                                                     SignInActivity::class.java
@@ -258,7 +262,7 @@ fun SignUpScreen() {
                     color = colorResource(id = R.color.p3),
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Black),
                     modifier = Modifier.clickable {
-                        context.startActivity(Intent(context, SignInActivity::class.java))
+                        context!!.startActivity(Intent(context, SignInActivity::class.java))
                         context.finish()
                     }
                 )
