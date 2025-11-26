@@ -1,10 +1,6 @@
 package plantdiseaseidentifier.kirankumar.teesproject
 
-import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,27 +29,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.google.firebase.database.FirebaseDatabase
-
-class SignUpActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            SignUpScreen()
-        }
-    }
-}
+import plantdiseaseidentifier.kirankumar.teesproject.data.AppRoutes
 
 
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignUpScreen(navController = NavHostController(LocalContext.current))
 }
 
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(navController: NavHostController) {
     var accName by remember { mutableStateOf("") }
     var accPlace by remember { mutableStateOf("") }
 
@@ -205,13 +194,10 @@ fun SignUpScreen() {
                                         if (task.isSuccessful) {
                                             Toast.makeText(context, "Registration Successful", Toast.LENGTH_SHORT).show()
 
-                                            context!!.startActivity(
-                                                Intent(
-                                                    context,
-                                                    SignInActivity::class.java
-                                                )
-                                            )
-                                            (context).finish()
+
+                                            navController.navigate(AppRoutes.Login.route) {
+                                                popUpTo(AppRoutes.Register.route) { inclusive = true }
+                                            }
                                         } else {
                                             Toast.makeText(
                                                 context,
@@ -262,8 +248,9 @@ fun SignUpScreen() {
                     color = colorResource(id = R.color.p3),
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Black),
                     modifier = Modifier.clickable {
-                        context!!.startActivity(Intent(context, SignInActivity::class.java))
-                        context.finish()
+                        navController.navigate(AppRoutes.Login.route) {
+                            popUpTo(AppRoutes.Register.route) { inclusive = true }
+                        }
                     }
                 )
 

@@ -1,12 +1,7 @@
 package plantdiseaseidentifier.kirankumar.teesproject
 
 
-import android.app.Activity
-import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -35,29 +30,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.google.firebase.database.FirebaseDatabase
-import kotlin.jvm.java
+import plantdiseaseidentifier.kirankumar.teesproject.data.AppRoutes
 
-class SignInActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            LoginScreen()
-        }
-    }
-
-}
 
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview() {
-    LoginScreen()
+    LoginScreen(navController = NavHostController(LocalContext.current))
 }
 
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavHostController) {
     var accEmail by remember { mutableStateOf("") }
     var accPassword by remember { mutableStateOf("") }
 
@@ -165,6 +151,11 @@ fun LoginScreen() {
 
                                                 if (accPassword == it.password) {
                                                     Toast.makeText(context, "Login Successfull", Toast.LENGTH_SHORT).show()
+
+                                                    navController.navigate(AppRoutes.Home.route){
+                                                        popUpTo(AppRoutes.Login.route) { inclusive = true }
+                                                    }
+
                                                 }
                                                 else{
                                                     Toast.makeText(context,"Incorrect Credentials",Toast.LENGTH_SHORT).show()
@@ -210,8 +201,11 @@ fun LoginScreen() {
                     color = colorResource(id = R.color.p3),
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Black),
                     modifier = Modifier.clickable {
-                        context!!.startActivity(Intent(context, SignUpActivity::class.java))
-                        context.finish()
+
+                        navController.navigate(AppRoutes.Register.route)
+
+//                        context!!.startActivity(Intent(context, SignUpActivity::class.java))
+//                        context.finish()
                     }
                 )
 

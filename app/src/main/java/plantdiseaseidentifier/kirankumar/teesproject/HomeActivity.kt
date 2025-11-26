@@ -1,7 +1,5 @@
 package plantdiseaseidentifier.kirankumar.teesproject
 
-import android.os.Bundle
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,25 +26,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ComponentActivity
+import androidx.navigation.NavHostController
+import plantdiseaseidentifier.kirankumar.teesproject.data.AppRoutes
 
-class HomeActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            HomeScreen()
-        }
-    }
-}
 
 @Composable
-fun HomeScreen()
+fun HomeScreen(navController: NavHostController)
 {
     Column(
         modifier = Modifier
@@ -215,7 +207,7 @@ fun HomeScreen()
             }
             Spacer(modifier = Modifier.height(6.dp))
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(AppRoutes.ScanPlant.route) },
                     shape = RoundedCornerShape(50),     // makes the button curved / pill shaped
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF4CAF50),   // background color
@@ -323,5 +315,5 @@ fun HomeScreen()
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-   HomeScreen()
+   HomeScreen(navController = NavHostController(LocalContext.current))
 }

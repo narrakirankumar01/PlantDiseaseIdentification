@@ -3,7 +3,6 @@ package plantdiseaseidentifier.kirankumar.teesproject
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,61 +21,60 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlin.jvm.java
+import plantdiseaseidentifier.kirankumar.teesproject.data.AppRoutes
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            UserStatusCheck()
+            MyAppNavGraph()
         }
     }
 }
 
 
 @Composable
-fun UserStatusCheck() {
-    val context = LocalContext.current as Activity
-    var showSplash by remember { mutableStateOf(true) }
+fun SplashScreen(navController: NavController) {
 
-    DisposableEffect(Unit) {
-        val job = CoroutineScope(Dispatchers.Main).launch {
-            delay(3000)
-            showSplash = false
+    LaunchedEffect(Unit) {
+        delay(3000)
+
+        if (false) {
+//            navController.navigate(AppRoutes.Home.route) {
+//                popUpTo(AppRoutes.Splash.route) {
+//                    inclusive = true
+//                }
+//            }
+        } else {
+            navController.navigate(AppRoutes.Login.route) {
+                popUpTo(AppRoutes.Splash.route) {
+                    inclusive = true
+                }
+            }
         }
-        onDispose { job.cancel() }
+
+
     }
 
-    if (showSplash) {
-        SplashScreen()
-
-    } else {
-        context.startActivity(Intent(context, SignInActivity::class.java))
-        context.finish()
-    }
-
+    SplashScreenDesign()
 }
 
 @Composable
-fun SplashScreen() {
+fun SplashScreenDesign() {
 
 
     Column(
@@ -158,9 +156,42 @@ fun Context.findActivity(): Activity? = when (this) {
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
 fun SplashScreenPreview() {
-    SplashScreen()
+    SplashScreenDesign()
+}
+
+
+@Composable
+fun MyAppNavGraph() {
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = AppRoutes.Splash.route
+    ) {
+        composable(AppRoutes.Splash.route) {
+            SplashScreen(navController = navController)
+        }
+
+        composable(AppRoutes.Login.route) {
+            LoginScreen(navController = navController)
+        }
+
+        composable(AppRoutes.Register.route) {
+            SignUpScreen(navController = navController)
+        }
+
+        composable(AppRoutes.Home.route) {
+            HomeScreen(navController = navController)
+        }
+
+        composable(AppRoutes.ScanPlant.route) {
+            PlantScanScreen(navController = navController)
+        }
+
+
+    }
+
 }
