@@ -49,6 +49,8 @@ fun LoginScreen(navController: NavHostController) {
 
     val context = LocalContext.current.findActivity()
 
+    val context1 = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,14 +68,18 @@ fun LoginScreen(navController: NavHostController) {
                 text = "Login",
                 color = colorResource(id = R.color.p1),
                 style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(bottom = 4.dp).align(Alignment.CenterHorizontally)
+                modifier = Modifier
+                    .padding(bottom = 4.dp)
+                    .align(Alignment.CenterHorizontally)
             )
 
             Text(
                 text = "Hello, Welcome Back!",
                 color = colorResource(id = R.color.p1),
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.padding(bottom = 32.dp).align(Alignment.CenterHorizontally)
+                modifier = Modifier
+                    .padding(bottom = 32.dp)
+                    .align(Alignment.CenterHorizontally)
             )
 
             Column(
@@ -128,11 +134,16 @@ fun LoginScreen(navController: NavHostController) {
                     onClick = {
                         when {
                             accEmail.isEmpty() -> {
-                                Toast.makeText(context, " Please Enter Mail", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, " Please Enter Mail", Toast.LENGTH_SHORT)
+                                    .show()
                             }
 
                             accPassword.isEmpty() -> {
-                                Toast.makeText(context, " Please Enter Password", Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    context,
+                                    " Please Enter Password",
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                             }
 
@@ -146,23 +157,45 @@ fun LoginScreen(navController: NavHostController) {
                                 databaseReference.child("SignedUpUsers").child(sanitizedEmail).get()
                                     .addOnSuccessListener { snapshot ->
                                         if (snapshot.exists()) {
-                                            val chefData = snapshot.getValue(AccountDetails::class.java)
+                                            val chefData =
+                                                snapshot.getValue(AccountDetails::class.java)
                                             chefData?.let {
 
                                                 if (accPassword == it.password) {
-                                                    Toast.makeText(context, "Login Successfull", Toast.LENGTH_SHORT).show()
 
-                                                    navController.navigate(AppRoutes.Home.route){
-                                                        popUpTo(AppRoutes.Login.route) { inclusive = true }
+                                                    UserPrefs.markLoginStatus(context1, true)
+                                                    UserPrefs.saveEmail(
+                                                        context1,
+                                                        email = accEmail
+                                                    )
+                                                    UserPrefs.saveName(context1, it.name)
+
+                                                    Toast.makeText(
+                                                        context,
+                                                        "Login Successfull",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+
+                                                    navController.navigate(AppRoutes.Home.route) {
+                                                        popUpTo(AppRoutes.Login.route) {
+                                                            inclusive = true
+                                                        }
                                                     }
 
-                                                }
-                                                else{
-                                                    Toast.makeText(context,"Incorrect Credentials",Toast.LENGTH_SHORT).show()
+                                                } else {
+                                                    Toast.makeText(
+                                                        context,
+                                                        "Incorrect Credentials",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
                                                 }
                                             }
                                         } else {
-                                            Toast.makeText(context,"No User Found",Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(
+                                                context,
+                                                "No User Found",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
                                     }.addOnFailureListener { exception ->
                                         println("Error retrieving data: ${exception.message}")

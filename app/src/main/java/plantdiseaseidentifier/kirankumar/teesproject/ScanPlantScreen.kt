@@ -11,19 +11,38 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.filled.Camera
 import androidx.compose.material3.Button
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
@@ -115,52 +134,137 @@ fun CameraPreviewScreen(
 
     val previewView = remember { PreviewView(context) }
 
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = { previewView }
-    ) { view ->
-        val preview = Preview.Builder().build()
-        preview.setSurfaceProvider(view.surfaceProvider)
+    Box(modifier = Modifier.fillMaxSize()) {
 
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
+        // Camera Preview
+        AndroidView(
+            modifier = Modifier.fillMaxSize(),
+            factory = { previewView }
+        ) { view ->
+            val preview = Preview.Builder().build()
+            preview.setSurfaceProvider(view.surfaceProvider)
 
-        cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+            val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
 
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    lifecycleOwner,
-                    cameraSelector,
-                    preview,
-                    imageCapture
+            cameraProviderFuture.addListener({
+                val cameraProvider = cameraProviderFuture.get()
+                val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+                try {
+                    cameraProvider.unbindAll()
+                    cameraProvider.bindToLifecycle(
+                        lifecycleOwner,
+                        cameraSelector,
+                        preview,
+                        imageCapture
+                    )
+                } catch (e: Exception) {
+                    Log.e("CameraX", "Binding Failed", e)
+                }
+            }, ContextCompat.getMainExecutor(context))
+        }
+
+        // --- 🔥 Scanning Animation Overlay ---
+        ScanAnimationOverlay()
+
+        // --- Capture Button ---
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 40.dp),
+            contentAlignment = Alignment.BottomCenter
+        ) {
+            FloatingActionButton(
+                onClick = {
+                    captureImage(context, imageCapture, onImageCaptured)
+                },
+                modifier = Modifier.size(70.dp)
+            ) {
+                Icon(
+                    imageVector = androidx.compose.material.icons.Icons.Default.Camera,
+                    contentDescription = "Capture"
                 )
-            } catch (e: Exception) {
-                Log.e("CameraX", "Binding Failed", e)
             }
-        }, ContextCompat.getMainExecutor(context))
+        }
     }
-
-//    Box(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.BottomCenter
-//    ) {
-//        FloatingActionButton(
-//            onClick = {
-//                captureImage(context, imageCapture, onImageCaptured)
-//            },
-//            modifier = Modifier
-//                .padding(20.dp)
-//                .size(70.dp)
-//        ) {
-//            Icon(
-//                imageVector = androidx.compose.material.icons.Icons.Default.Camera,
-//                contentDescription = "Capture"
-//            )
-//        }
-//    }
 }
+
+@Composable
+fun ScanAnimationOverlay() {
+
+    // Pulsing animation
+    val infiniteTransition = rememberInfiniteTransition()
+    val pulse by infiniteTransition.animateFloat(
+        initialValue = 0.8f,
+        targetValue = 1.1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1200, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        )
+    )
+
+    // Rotate ring animation
+    val rotate by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(3000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        )
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 140.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+
+        // Scanning circle
+        Box(
+            modifier = Modifier
+                .size((250 * pulse).dp)
+                .align(Alignment.CenterHorizontally)
+        ) {
+
+            // Rotating ring
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .graphicsLayer {
+                        rotationZ = rotate
+                    }
+                    .border(
+                        width = 3.dp,
+                        color = Color.Green.copy(alpha = 0.7f),
+                        shape = CircleShape
+                    )
+            )
+
+            // Inner faded circle
+            Box(
+                modifier = Modifier
+                    .size(200.dp)
+                    .align(Alignment.Center)
+                    .background(
+                        color = Color.Green.copy(alpha = 0.15f),
+                        shape = CircleShape
+                    )
+            )
+        }
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Text(
+            text = "Place the leaf in the center",
+            style = MaterialTheme.typography.titleMedium,
+            color = Color.White,
+            modifier = Modifier.padding(top = 16.dp)
+        )
+    }
+}
+
 
 fun captureImage(
     context: Context,

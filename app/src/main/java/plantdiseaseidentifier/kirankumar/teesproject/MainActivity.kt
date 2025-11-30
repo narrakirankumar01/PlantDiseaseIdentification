@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,16 +50,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SplashScreen(navController: NavController) {
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         delay(3000)
 
-        if (false) {
-//            navController.navigate(AppRoutes.Home.route) {
-//                popUpTo(AppRoutes.Splash.route) {
-//                    inclusive = true
-//                }
-//            }
+        if (UserPrefs.checkLoginStatus(context)) {
+            navController.navigate(AppRoutes.Home.route) {
+                popUpTo(AppRoutes.Splash.route) {
+                    inclusive = true
+                }
+            }
         } else {
             navController.navigate(AppRoutes.Login.route) {
                 popUpTo(AppRoutes.Splash.route) {
