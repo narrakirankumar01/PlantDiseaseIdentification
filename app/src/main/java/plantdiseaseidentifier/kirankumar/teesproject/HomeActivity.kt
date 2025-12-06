@@ -2,6 +2,7 @@ package plantdiseaseidentifier.kirankumar.teesproject
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -83,7 +84,7 @@ fun HomeScreen(navController: NavHostController) {
                         )
 
                         Text(
-                            text = "Welcome Back",
+                            text = "Welcome back!",
                             style = MaterialTheme.typography.titleMedium,
                             color = Color.Black,
 
@@ -249,6 +250,9 @@ fun HomeScreen(navController: NavHostController) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
+                            .clickable{
+                                navController.navigate(AppRoutes.SavedReports.route)
+                            }
                             .weight(1f)
                             .background(
                                 color = Color(0xFFEFEFEF),   // your background color

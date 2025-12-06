@@ -31,11 +31,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import kotlinx.coroutines.delay
 import plantdiseaseidentifier.kirankumar.teesproject.data.AppRoutes
+import java.net.URLDecoder
+import java.nio.charset.StandardCharsets
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -192,6 +196,77 @@ fun MyAppNavGraph() {
         composable(AppRoutes.ScanPlant.route) {
             PlantScanScreen(navController = navController)
         }
+
+        composable(
+            route = "scan_result/{plant}/{plantConf}/{disease}/{diseaseConf}/{imageUriString}",
+            arguments = listOf(
+                navArgument("plant") { type = NavType.StringType },
+                navArgument("plantConf") { type = NavType.FloatType },
+                navArgument("disease") { type = NavType.StringType },
+                navArgument("diseaseConf") { type = NavType.FloatType },
+                navArgument("imageUriString") { type = NavType.StringType } // New argument
+            )
+        ) { backStackEntry ->
+            val plant = backStackEntry.arguments?.getString("plant") ?: "N/A"
+            val plantConf = backStackEntry.arguments?.getFloat("plantConf") ?: 0.0f
+            val disease = backStackEntry.arguments?.getString("disease") ?: "N/A"
+            val diseaseConf = backStackEntry.arguments?.getFloat("diseaseConf") ?: 0.0f
+            val imageUriString = backStackEntry.arguments?.getString("imageUriString") ?: ""
+
+            ResultScreen(
+                navController = navController,
+                plant = plant,
+                plantConf = plantConf,
+                disease = disease,
+                diseaseConf = diseaseConf,
+                imageUriString = imageUriString
+            )
+        }
+
+        composable("remedy/{disease}") { backStackEntry ->
+            val disease = backStackEntry.arguments?.getString("disease") ?: "Unknown"
+            RemedyScreen(navController, disease)
+        }
+
+        composable(
+            route = "save_report_screen/{plant}/{disease}/{confidence}/{imageUri}",
+            arguments = listOf(
+                navArgument("plant") { type = NavType.StringType },
+                navArgument("disease") { type = NavType.StringType },
+                navArgument("confidence") { type = NavType.FloatType },
+                navArgument("imageUri") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+
+            val plantEncoded = backStackEntry.arguments?.getString("plant") ?: ""
+            val diseaseEncoded = backStackEntry.arguments?.getString("disease") ?: ""
+
+            val plant = URLDecoder.decode(plantEncoded, StandardCharsets.UTF_8.toString())
+            val disease = URLDecoder.decode(diseaseEncoded, StandardCharsets.UTF_8.toString())
+
+            val confidence = backStackEntry.arguments?.getFloat("confidence") ?: 0f
+
+            val imageEncoded = backStackEntry.arguments?.getString("imageUri") ?: ""
+            val imageUri = URLDecoder.decode(imageEncoded, StandardCharsets.UTF_8.toString())
+
+            SaveReportScreen(
+                navController = navController,
+                plant = plant,
+                disease = disease,
+                confidence = confidence,
+                imageUri = imageUri
+            )
+        }
+
+
+
+        composable(AppRoutes.SavedReports.route) {
+            SavedReportsScreen(navController)
+        }
+
+
+
+
 
 
     }
