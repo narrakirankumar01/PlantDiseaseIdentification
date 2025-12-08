@@ -1,5 +1,6 @@
 package plantdiseaseidentifier.kirankumar.teesproject
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,6 +52,7 @@ fun RemedyScreen(
 
     val info = DiseaseInfoProvider.getInfo(diseaseName)
 
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -96,17 +98,7 @@ fun RemedyScreen(
 
             Spacer(Modifier.height(32.dp))
 
-            // Save Report Button
-            Button(
-                onClick = {
-                    navController.navigate("save_report/$diseaseName")
-                },
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(20.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = p1)
-            ) {
-                Text("Save Report", color = Color.White)
-            }
+
         }
     }
 }

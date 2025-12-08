@@ -70,6 +70,9 @@ fun HomeScreen(navController: NavHostController) {
                         contentDescription = "",
                         modifier = Modifier
                             .size(44.dp)
+                            .clickable{
+                                navController.navigate(AppRoutes.Profile.route)
+                            }
 
                     )
                     Spacer(modifier = Modifier.width(8.dp))
@@ -284,6 +287,9 @@ fun HomeScreen(navController: NavHostController) {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         modifier = Modifier
                             .weight(1f)
+                            .clickable{
+                                navController.navigate(AppRoutes.Articles.route)
+                            }
                             .background(
                                 color = Color(0xFFEFEFEF),   // your background color
                                 shape = RoundedCornerShape(12.dp) // optional rounded corners

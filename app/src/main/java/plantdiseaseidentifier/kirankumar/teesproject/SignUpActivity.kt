@@ -1,9 +1,11 @@
 package plantdiseaseidentifier.kirankumar.teesproject
 
+import android.app.DatePickerDialog
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,8 +14,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -24,14 +31,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.firebase.database.FirebaseDatabase
 import plantdiseaseidentifier.kirankumar.teesproject.data.AppRoutes
+import plantdiseaseidentifier.kirankumar.teesproject.data.CryptoUtils
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 @Preview(showBackground = true)
@@ -50,6 +64,33 @@ fun SignUpScreen(navController: NavHostController) {
     var accPassword by remember { mutableStateOf("") }
 
     val context = LocalContext.current.findActivity()
+
+    val context1 = LocalContext.current
+
+    var passwordVisible by remember { mutableStateOf(false) }
+
+
+    var dobDate by remember { mutableStateOf("") }
+
+    val calendar = Calendar.getInstance()
+    val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+
+    fun openDatePicker(onSelect: (String) -> Unit, minDate: Long? = null) {
+        val dp = DatePickerDialog(
+            context1,
+            { _, year, month, day ->
+                val c = Calendar.getInstance().apply {
+                    set(year, month, day)
+                }
+                onSelect(dateFormat.format(c.time))
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        if (minDate != null) dp.datePicker.minDate = minDate
+        dp.show()
+    }
 
     Column(
         modifier = Modifier
@@ -109,6 +150,23 @@ fun SignUpScreen(navController: NavHostController) {
                 )
                 Spacer(modifier = Modifier.height(8.dp))
 
+                DOBDateField(
+                    label = "Date of Birth",
+                    value = dobDate,
+                    onClick = {
+                        val today = Calendar.getInstance().apply {
+                            set(Calendar.HOUR_OF_DAY, 0)
+                            set(Calendar.MINUTE, 0)
+                            set(Calendar.SECOND, 0)
+                            set(Calendar.MILLISECOND, 0)
+                        }.timeInMillis
+
+                        openDatePicker({ dobDate = it }, today)
+                    }
+                )
+
+                Spacer(Modifier.height(6.dp))
+
                 Text(
                     text = "Place",
                     color = colorResource(id = R.color.black),
@@ -151,7 +209,19 @@ fun SignUpScreen(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     value = accPassword,
-                    onValueChange = { accPassword = it }
+                    onValueChange = { accPassword = it },
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        val image = if (passwordVisible)
+                            Icons.Filled.Visibility
+                        else Icons.Filled.VisibilityOff
+
+                        val description = if (passwordVisible) "Hide password" else "Show password"
+
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(imageVector = image, description)
+                        }
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(36.dp))
@@ -162,6 +232,10 @@ fun SignUpScreen(navController: NavHostController) {
 
                             accName.isEmpty() -> {
                                 Toast.makeText(context, " Please Enter Name", Toast.LENGTH_SHORT).show()
+                            }
+
+                            dobDate.isEmpty() ->{
+                                Toast.makeText(context, " Please Select DOB", Toast.LENGTH_SHORT).show()
                             }
 
                             accPlace.isEmpty() -> {
@@ -181,9 +255,10 @@ fun SignUpScreen(navController: NavHostController) {
 
                                 val userData = AccountDetails(
                                     name = accName,
+                                    dob = dobDate,
                                     email = accEmail,
                                     place = accPlace,
-                                    password = accPassword
+                                    password = CryptoUtils.encrypt(accPassword)
                                 )
 
 
@@ -265,9 +340,34 @@ fun SignUpScreen(navController: NavHostController) {
 }
 
 
+@Composable
+fun DOBDateField(label: String, value: String, onClick: () -> Unit) {
+    Column {
+        Text(label, fontWeight = FontWeight.Medium)
+        Spacer(Modifier.height(6.dp))
+
+        Box {
+            OutlinedTextField(
+                value = value,
+                onValueChange = {},
+                readOnly = true,
+                placeholder = { Text("Select $label") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Box(
+                Modifier
+                    .matchParentSize()
+                    .background(Color.Transparent)
+                    .clickable { onClick() }
+            )
+        }
+    }
+}
+
 data class AccountDetails
     (
     var name: String = "",
+    val dob: String = "",
     var place: String ="",
     var email: String ="",
     var password: String ="",

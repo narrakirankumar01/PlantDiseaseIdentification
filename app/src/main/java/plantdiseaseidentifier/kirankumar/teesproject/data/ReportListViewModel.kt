@@ -23,4 +23,13 @@ class ReportListViewModel(application: Application) : AndroidViewModel(applicati
             _reports.value = reportDao.getAllReports()
         }
     }
+
+
+
+    fun deleteReport(report: Report) {
+        viewModelScope.launch {
+            reportDao.deleteReport(report)
+            loadReports() // refresh list
+        }
+    }
 }

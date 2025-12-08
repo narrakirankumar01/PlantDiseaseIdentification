@@ -15,11 +15,16 @@ class SaveReportViewModel(application: Application) : AndroidViewModel(applicati
     private val _saveState = MutableStateFlow(false)
     val saveState: StateFlow<Boolean> = _saveState
 
+    private val _reports = MutableStateFlow<List<Report>>(emptyList())
+    val reports: StateFlow<List<Report>> = _reports
+
     fun saveReport(report: Report) {
         viewModelScope.launch {
             reportDao.insertReport(report)
             _saveState.value = true
         }
     }
+
+
 }
 

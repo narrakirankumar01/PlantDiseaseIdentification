@@ -1,5 +1,6 @@
 package plantdiseaseidentifier.kirankumar.teesproject
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -78,6 +79,8 @@ fun ResultScreen(
             )
 
             Spacer(Modifier.height(24.dp))
+
+            Log.e("Test","Disease Deteched -${disease.replace("___", " ")}")
 
             ActionButtonsModern(
                 p1 = p1,
@@ -219,17 +222,7 @@ fun ActionButtonsModern(
             Text("Save Report", color = Color.White)
         }
 
-        // ----------------------------------------------------
-        // SCAN AGAIN BUTTON
-        // ----------------------------------------------------
-        OutlinedButton(
-            onClick = { navController.navigate(AppRoutes.ScanPlant.route) },
-            shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = p2),
-            border = BorderStroke(1.5.dp, p2)
-        ) {
-            Text("Scan Again")
-        }
+
     }
 }
 

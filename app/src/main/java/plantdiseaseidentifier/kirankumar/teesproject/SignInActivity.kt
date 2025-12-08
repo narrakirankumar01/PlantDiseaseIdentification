@@ -13,8 +13,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -28,11 +33,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.firebase.database.FirebaseDatabase
 import plantdiseaseidentifier.kirankumar.teesproject.data.AppRoutes
+import plantdiseaseidentifier.kirankumar.teesproject.data.CryptoUtils
 
 
 @Preview(showBackground = true)
@@ -50,6 +58,8 @@ fun LoginScreen(navController: NavHostController) {
     val context = LocalContext.current.findActivity()
 
     val context1 = LocalContext.current
+
+    var passwordVisible by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -125,7 +135,19 @@ fun LoginScreen(navController: NavHostController) {
                     modifier = Modifier
                         .fillMaxWidth(),
                     value = accPassword,
-                    onValueChange = { accPassword = it }
+                    onValueChange = { accPassword = it },
+                    visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        val image = if (passwordVisible)
+                            Icons.Filled.Visibility
+                        else Icons.Filled.VisibilityOff
+
+                        val description = if (passwordVisible) "Hide password" else "Show password"
+
+                        IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Icon(imageVector = image, description)
+                        }
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(36.dp))
@@ -143,8 +165,7 @@ fun LoginScreen(navController: NavHostController) {
                                     context,
                                     " Please Enter Password",
                                     Toast.LENGTH_SHORT
-                                )
-                                    .show()
+                                ).show()
                             }
 
                             else -> {
@@ -161,7 +182,7 @@ fun LoginScreen(navController: NavHostController) {
                                                 snapshot.getValue(AccountDetails::class.java)
                                             chefData?.let {
 
-                                                if (accPassword == it.password) {
+                                                if (CryptoUtils.decrypt(accPassword) == it.password) {
 
                                                     UserPrefs.markLoginStatus(context1, true)
                                                     UserPrefs.saveEmail(
@@ -169,6 +190,7 @@ fun LoginScreen(navController: NavHostController) {
                                                         email = accEmail
                                                     )
                                                     UserPrefs.saveName(context1, it.name)
+                                                    UserPrefs.savePlace(context1, it.place)
 
                                                     Toast.makeText(
                                                         context,
@@ -217,6 +239,17 @@ fun LoginScreen(navController: NavHostController) {
             }
 
             Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = "Forgot Password?",
+                color = colorResource(id = R.color.p3),
+                modifier = Modifier
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .clickable {
+                        navController.navigate(AppRoutes.ForgotPassword.route)
+                    }
+            )
+
 
             Spacer(modifier = Modifier.weight(1f))
 

@@ -714,14 +714,23 @@ object DiseaseInfoProvider {
 
 
     fun getInfo(name: String): DiseaseInfo {
-        return info[name] ?: DiseaseInfo(
-            name,
+
+        val normalized = name
+            .trim()
+            .lowercase()
+            .replace("+", " ")
+            .replace("_", " ")
+            .replace(Regex("\\s+"), " ") // collapse multiple spaces
+
+        return info[normalized] ?: DiseaseInfo(
+            name = normalized,
             symptoms = listOf("No information available."),
             management = listOf("No management guidelines available."),
-            chemical = listOf(),
-            organic = listOf()
+            chemical = emptyList(),
+            organic = emptyList()
         )
     }
+
 }
 
 

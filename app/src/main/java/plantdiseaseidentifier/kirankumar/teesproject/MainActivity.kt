@@ -173,6 +173,8 @@ fun SplashScreenPreview() {
 fun MyAppNavGraph() {
     val navController = rememberNavController()
 
+    val context = LocalContext.current
+
     NavHost(
         navController = navController,
         startDestination = AppRoutes.Splash.route
@@ -264,9 +266,35 @@ fun MyAppNavGraph() {
             SavedReportsScreen(navController)
         }
 
+        composable(AppRoutes.Articles.route) { ArticlesScreen(navController) }
+
+        composable(
+            route = "article_detail/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
+            val id = it.arguments!!.getInt("id")
+            ArticleDetailScreen(navController, id)
+        }
 
 
+        composable(AppRoutes.Profile.route) {
+            ProfileScreen(
+                navController = navController,
+                name = UserPrefs.getName(context = context),
+                place = UserPrefs.getPlace(context = context),
+                email = UserPrefs.getEmail(context = context),
+                onLogout = {
+                    UserPrefs.markLoginStatus(context, false)
+                    navController.navigate(AppRoutes.Login.route) {
+                        popUpTo(0)
+                    }
+                }
+            )
+        }
 
+        composable(AppRoutes.ForgotPassword.route) {
+            ForgotPasswordScreen(navController)
+        }
 
 
     }

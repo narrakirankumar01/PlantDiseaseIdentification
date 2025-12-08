@@ -10,5 +10,8 @@ sealed class AppRoutes(val route: String) {
     object ScanPlant : AppRoutes("scan_plant")
 
     object SavedReports : AppRoutes("saved_reports")
+    object Articles : AppRoutes("prevention_tips")
+    object Profile : AppRoutes("user_profile")
+    object ForgotPassword : AppRoutes("forgot_password")
 
 }
