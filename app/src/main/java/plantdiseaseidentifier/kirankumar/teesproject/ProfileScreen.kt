@@ -98,13 +98,10 @@ fun ProfileScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            // ---------------------------------
-            // Profile Details Card
-            // ---------------------------------
+      
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = p2.copy(alpha = 0.12f)),
                 elevation = CardDefaults.cardElevation(8.dp)
             ) {
                 Column(

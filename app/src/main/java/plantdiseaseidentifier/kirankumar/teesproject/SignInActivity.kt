@@ -182,7 +182,7 @@ fun LoginScreen(navController: NavHostController) {
                                                 snapshot.getValue(AccountDetails::class.java)
                                             chefData?.let {
 
-                                                if (CryptoUtils.decrypt(accPassword) == it.password) {
+                                                if (CryptoUtils.decrypt(it.password) == accPassword) {
 
                                                     UserPrefs.markLoginStatus(context1, true)
                                                     UserPrefs.saveEmail(
