@@ -283,6 +283,7 @@ fun MyAppNavGraph() {
                 name = UserPrefs.getName(context = context),
                 place = UserPrefs.getPlace(context = context),
                 email = UserPrefs.getEmail(context = context),
+                dob = UserPrefs.getDob(context),
                 onLogout = {
                     UserPrefs.markLoginStatus(context, false)
                     navController.navigate(AppRoutes.Login.route) {
@@ -290,6 +291,7 @@ fun MyAppNavGraph() {
                     }
                 }
             )
+
         }
 
         composable(AppRoutes.ForgotPassword.route) {

@@ -191,6 +191,7 @@ fun LoginScreen(navController: NavHostController) {
                                                     )
                                                     UserPrefs.saveName(context1, it.name)
                                                     UserPrefs.savePlace(context1, it.place)
+                                                    UserPrefs.saveDob(context1,it.dob)
 
                                                     Toast.makeText(
                                                         context,
