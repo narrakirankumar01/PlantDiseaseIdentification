@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">पौधों की बीमारी पहचानकर्ता</string>
+
+    <string name="heal_your_crop">अपनी फसल को स्वस्थ करें</string>
+    <string name="take_picture">तस्वीर लें</string>
+    <string name="take_picture_btn">तस्वीर लें</string>
+
+    <string name="get_result">परिणाम प्राप्त करें</string>
+    <string name="get_diagnosis">निदान प्राप्त करें</string>
+
+    <string name="saved_report">सहेजी गई रिपोर्ट</string>
+    <string name="prevention_tips">रोकथाम के उपाय</string>
+
+    <string name="about_us">हमारे बारे में</string>
+    <string name="contact_us">संपर्क करें</string>
+
+    <string name="welcome_back">वापसी पर स्वागत है!</string>
+
+
+
+        <!-- Profile Screen -->
+        <string name="profile">प्रोफ़ाइल</string>
+        <string name="profile_details">प्रोफ़ाइल विवरण</string>
+        <string name="full_name">पूरा नाम</string>
+        <string name="place">स्थान</string>
+        <string name="date_of_birth">जन्म तिथि</string>
+        <string name="email">ईमेल</string>
+        <string name="logout">लॉग आउट</string>
+
+        <!-- Edit Profile -->
+        <string name="edit_profile">प्रोफ़ाइल संपादित करें</string>
+        <string name="name">नाम</string>
+        <string name="save">सहेजें</string>
+        <string name="cancel">रद्द करें</string>
+        <string name="profile_updated">प्रोफ़ाइल अपडेट हो गई है</string>
+
+        <!-- Dark Mode -->
+        <string name="dark_mode">डार्क मोड</string>
+
+
+    <string name="place_leaf_in_circle">पत्ते को घेरे के अंदर रखें</string>
+
+
+    <string name="scan_result">स्कैन परिणाम</string>
+    <string name="back">वापस</string>
+
+    <string name="disease_detected">रोग पहचाना गया</string>
+    <string name="confidence">विश्वसनीयता</string>
+
+    <string name="find_remedy">उपचार खोजें</string>
+    <string name="save_report">रिपोर्ट सहेजें</string>
+
+    <string name="leaf_preview">पत्ती पूर्वावलोकन</string>
+
+
+    <string name="symptoms">लक्षण</string>
+    <string name="general_management">सामान्य प्रबंधन</string>
+    <string name="chemical_treatment">रासायनिक उपचार</string>
+    <string name="organic_treatment">जैविक उपचार</string>
+
+</resources>

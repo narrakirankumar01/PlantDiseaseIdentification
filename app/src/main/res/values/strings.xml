@@ -1,3 +1,61 @@
 <resources>
     <string name="app_name">PlantDiseaseIdentifier</string>
+
+    <string name="heal_your_crop">Heal Your Crop</string>
+    <string name="take_picture">Take a\npicture</string>
+    <string name="take_picture_btn">Take a picture</string>
+    <string name="get_result">Get the\nresult</string>
+    <string name="get_diagnosis">Get\ndiagnosis</string>
+
+    <string name="saved_report">Saved Report</string>
+    <string name="prevention_tips">Prevention Tips</string>
+
+
+    <string name="about_us">About Us</string>
+    <string name="contact_us">ContactUs</string>
+
+    <string name="welcome_back">Welcome back!</string>
+
+
+
+    <string name="profile">Profile</string>
+    <string name="profile_details">Profile Details</string>
+    <string name="full_name">Full Name</string>
+    <string name="place">Place</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="email">Email</string>
+    <string name="logout">Logout</string>
+
+    <!-- Edit Profile -->
+    <string name="edit_profile">Edit Profile</string>
+    <string name="name">Name</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="profile_updated">Profile updated</string>
+
+    <!-- Dark Mode -->
+    <string name="dark_mode">Dark Mode</string>
+
+    <string name="place_leaf_in_circle">Place the leaf in the circle</string>
+
+
+    <string name="scan_result">Scan Result</string>
+    <string name="back">Back</string>
+
+    <string name="disease_detected">Disease Detected</string>
+    <string name="confidence">Confidence</string>
+
+    <string name="find_remedy">Find Remedy</string>
+    <string name="save_report">Save Report</string>
+
+    <string name="leaf_preview">Leaf Preview</string>
+
+
+
+    <string name="symptoms">Symptoms</string>
+    <string name="general_management">General Management</string>
+    <string name="chemical_treatment">Chemical Treatment</string>
+    <string name="organic_treatment">Organic Treatment</string>
+
+
 </resources>

@@ -13,6 +13,7 @@ material = "1.10.0"
 activity = "1.11.0"
 firebaseDatabaseKtx = "21.0.0"
 navigationCompose = "2.9.6"
+foundation = "1.10.0"
 
 
 
@@ -36,6 +37,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 
 [plugins]

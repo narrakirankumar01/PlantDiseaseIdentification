@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="heal_your_crop">మీ పంటను ఆరోగ్యంగా ఉంచండి</string>
+
+    <string name="take_picture">ఫోటో\nతీసుకోండి</string>
+    <string name="take_picture_btn">ఫోటో తీసుకోండి</string>
+
+    <string name="get_result">ఫలితం\nచూడండి</string>
+    <string name="get_diagnosis">నిర్ధారణ\nచూడండి</string>
+
+    <string name="saved_report">సేవ్ చేసిన నివేదిక</string>
+    <string name="prevention_tips">నివారణ సూచనలు</string>
+
+    <string name="about_us">మా గురించి</string>
+    <string name="contact_us">మమ్మల్ని సంప్రదించండి</string>
+
+    <string name="welcome_back">మళ్లీ స్వాగతం!</string>
+
+    <!-- Profile Screen -->
+    <string name="profile">ప్రొఫైల్</string>
+    <string name="profile_details">ప్రొఫైల్ వివరాలు</string>
+    <string name="full_name">పూర్తి పేరు</string>
+    <string name="place">స్థలం</string>
+    <string name="date_of_birth">పుట్టిన తేదీ</string>
+    <string name="email">ఈమెయిల్</string>
+    <string name="logout">లాగ్ అవుట్</string>
+
+    <!-- Edit Profile -->
+    <string name="edit_profile">ప్రొఫైల్ సవరించండి</string>
+    <string name="name">పేరు</string>
+    <string name="save">సేవ్ చేయండి</string>
+    <string name="cancel">రద్దు చేయండి</string>
+    <string name="profile_updated">ప్రొఫైల్ విజయవంతంగా నవీకరించబడింది</string>
+
+    <!-- Dark Mode -->
+    <string name="dark_mode">డార్క్ మోడ్</string>
+
+    <string name="place_leaf_in_circle">ఆకును వృత్తం లోపల ఉంచండి</string>
+
+
+    <string name="scan_result">స్కాన్ ఫలితం</string>
+    <string name="back">వెనక్కి</string>
+
+    <string name="disease_detected">గుర్తించిన వ్యాధి</string>
+    <string name="confidence">నమ్మకం స్థాయి</string>
+
+    <string name="find_remedy">చికిత్స చూడండి</string>
+    <string name="save_report">నివేదికను సేవ్ చేయండి</string>
+
+    <string name="leaf_preview">ఆకు ప్రివ్యూ</string>
+
+
+    <string name="symptoms">లక్షణాలు</string>
+    <string name="general_management">సాధారణ నిర్వహణ</string>
+    <string name="chemical_treatment">రసాయన చికిత్స</string>
+    <string name="organic_treatment">సేంద్రీయ చికిత్స</string>
+
+</resources>

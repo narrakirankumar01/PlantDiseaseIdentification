@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "plantdiseaseidentifier.kirankumar.teesproject"
+    namespace = "plantdiseaseidentifier.app.s3468594narrakiran"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "plantdiseaseidentifier.kirankumar.teesproject"
+        applicationId = "plantdiseaseidentifier.app.s3468594narrakiran"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.foundation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

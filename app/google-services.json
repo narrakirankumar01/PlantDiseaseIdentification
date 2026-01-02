@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "407888175635",
+    "firebase_url": "https://plantdiseaseidentifier-e6170-default-rtdb.firebaseio.com",
     "project_id": "plantdiseaseidentifier-e6170",
     "storage_bucket": "plantdiseaseidentifier-e6170.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:407888175635:android:9e9632ec561ac32dffd5e6",
+        "mobilesdk_app_id": "1:407888175635:android:91145b9dc91abf55ffd5e6",
         "android_client_info": {
-          "package_name": "plantdiseaseidentifier.kirankumar.teesproject"
+          "package_name": "plantdiseaseidentifier.app.s3468594narrakiran"
         }
       },
       "oauth_client": [],
